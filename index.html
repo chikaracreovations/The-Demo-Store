@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <title>The Demo Store</title>
+    <!-- Include Swiper.js CSS and JS -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+ <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+ <!-- Swiper CSS (Place this in the <head> section) -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+<!-- Swiper JS (Place this just before </body> tag) -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js
+  "></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  
+  <script type="module" src="main.js" defer></script>
+  
+  <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  
+      <header>
+      THE DEMO STORE
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showSection('home','home2','sale-timer','macrame-featured-section')">Home</a></li>
+                <li><a href="#" onclick="showSection('about')">About</a></li>
+                <li><a href="#" onclick="showSection('products')">Shop</a></li>
+                <li><a href="#" onclick="showSection('cart')">Cart (<span class="cart-count">0</span>)</a></li>
+                <li><a href="#" onclick="showSection('contact')">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+    
+    
+    
+    
+<!-- Home Section -->
+<section id="home" class="section hero active">
+   <h2>Crafting Dreams, One Store at a Time!</h2>
+    <p>Welcome to The Demo Store
+     HAR GHAR E-COMMERCE</p>
+    <button onclick="showSection('products')">Shop Now</button>
+</section>
+
+
+
+
+<section id="home2" class="section  active">
+    <h2>Our Best Sellers</h2>
+    <br>
+     <div class="product-grid">
+        <!-- Product 1 -->
+        <div class="product-card" onclick="showSection('products')">
+           <div class="badge">New</div>
+            <img src="https://i.gifer.com/45xt.gif" alt="Demo Product 1">
+          
+             </div>
+
+        <!-- Product 2 -->
+        <div class="product-card" onclick="showSection('products')" >
+            <img src="images/1.gif" alt="Demo Product">
+            
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card" 
+       onclick="showSection('products')">
+            <div class="badge">Best Seller</div>
+            <img src="https://i.gifer.com/IQ32.gif" alt="Demo Product 3">
+
+        </div>
+       
+               <!-- Product 4 -->
+        <div class="product-card" 
+       onclick="showSection('products')">
+            <div class="badge">Selling Fast</div>
+            <img src="images/2.gif" alt="Demo Product 4">
+
+        </div> 
+        
+    </div>
+   
+</section>
+
+<section id="sale-timer" class="section active">
+  <h2>🔥 Hurry Up! Sale Ends In:</h2>
+  <div class="timer-container">
+    <span id="hours">03</span> :
+    <span id="minutes">00</span> :
+    <span id="seconds">00</span>
+  </div>
+  <p4>Grab your favorite products before the time runs out!</p4>
+</section>
+
+<!-- Floating Help Button -->
+<div id="help-button" onclick="toggleChatbox()">❔</div>
+
+<!-- Chatbox -->
+<div id="chatbox">
+    <div class="chat-header">
+        <span>Support Chat</span>
+        <button onclick="toggleChatbox()">✖</button>
+    </div>
+    <div class="chat-body">
+        <textarea id="chat-message" placeholder="Type your message..."></textarea>
+        <button onclick="sendChatMessage()">Send</button>
+    </div>
+</div>
+
+
+
+
+
+<section id="macrame-featured-section" class="section  active">
+    <div class="macrame-featured-content">
+
+        <p>At <strong>THE DEMO STORE</strong>, we're more than a store; we're creators of enchantment. Our world revolves around the art of coding, and we're here to weave elegance into your life. Step into a realm where line tell stories, and every page is a masterpiece.</p>
+
+    </div>
+</section>
+
+
+
+
+
+            
+        <!-- About Us Content on Home Page -->
+        <!-- About Us Section -->
+<section id="about" class="section about-us">
+    <h2>About Us</h2>
+    <p>
+      Welcome to The Demo Store , a showcase of cutting-edge e-commerce design and functionality. This demo store is built to demonstrate a seamless online shopping experience with modern design, intuitive navigation, and powerful features.
+</p>
+<p>
+From product browsing to a smooth checkout process, this store highlights best practices in user experience, responsive design, and performance optimization. Whether you're a business looking for an e-commerce solution or simply exploring possibilities, this demo offers a glimpse into what’s possible.
+</p>
+<p>
+Looking to build something similar for your brand? Let’s connect and create something amazing together!
+    </p>
+    <p>
+        
+    </p>
+</section>
+        
+
+        
+<section id="products" class="section products">
+    <h2>Our Products</h2>
+    
+   <input type="text" id="search-bar" placeholder="Search products..." oninput="searchProducts()">
+   
+    <div class="product-grid">
+        <!-- Product 1 -->
+     <!-- Product 1 -->
+
+<!-- Product 1 -->
+<!-- Product 1 -->
+<div class="product-card" onclick="openProductPage(
+    'Demo Product 1',
+    ['images/1.jpg', 'images/p2.jpg', 'images/product1-image3.jpg'],
+    'This is a beautifully crafted demo product, perfect for home décor.',
+    199,
+    [
+        { name: 'John Doe', rating: 5, comment: 'Absolutely stunning! The quality is amazing.' },
+        { name: 'Jane Smith', rating: 4, comment: 'Beautiful piece, worth the wait.' }
+    ]
+)">
+    <img src="images/1.jpg" alt="Demo Product 1">
+    <h3>Demo Product 1</h3>
+    <p>₹199</p>
+    <button onclick="event.stopPropagation(); addToCart('Demo Product 1', 199)">Add to Cart</button>
+    <button class="buy-now" onclick="event.stopPropagation(); buyNow('Demo Product 1', 199)">Buy Now</button>
+</div>
+
+<!-- Product 2 -->
+<div class="product-card" onclick="openProductPage(
+    'Demo Product 2',
+    ['images/2.jpg', 'images/2.2.jpg', 'images/product2-image3.jpg'],
+    'A high-quality demo product to enhance your living space.',
+    299,
+    [
+        { name: 'Emily Brown', rating: 5, comment: 'Such a lovely piece. It brightened up my room perfectly!' },
+        { name: 'Liam Green', rating: 4, comment: 'Great quality but a little smaller than expected.' }
+    ]
+)">
+    <img src="images/2.jpg" alt="Demo Product 2">
+    <h3>Demo Product 2</h3>
+    <p>₹299</p>
+    <button onclick="event.stopPropagation(); addToCart('Demo Product 2', 299)">Add to Cart</button>
+    <button class="buy-now" onclick="event.stopPropagation(); buyNow('Demo Product 2', 299)">Buy Now</button>
+</div>
+
+<!-- Product 3 -->
+<div class="product-card" onclick="openProductPage(
+    'Demo Product 3',
+    ['images/3.jpg', 'images/3.2.jpg', 'images/3.3.jpg'],
+    'A premium demo product with intricate designs, perfect for any room.',
+    899,
+    [
+        { name: 'Sophia White', rating: 5, comment: 'Incredible craftsmanship! Love the detailing.' },
+        { name: 'Oliver Black', rating: 4, comment: 'Beautiful but slightly pricey.' }
+    ]
+)">
+    <div class="badge">Best Seller</div>
+    <img src="images/3.jpg" alt="Demo Product 3">
+    <h3>Demo Product 3</h3>
+    <p>₹899</p>
+    <button onclick="event.stopPropagation(); addToCart('Demo Product 3', 899)">Add to Cart</button>
+    <button class="buy-now" onclick="event.stopPropagation(); buyNow('Demo Product 3', 899)">Buy Now</button>
+</div>
+
+<!-- Product 4 -->
+<div class="product-card" onclick="openProductPage(
+    'Demo Product 4',
+    ['images/4.jpg', 'images/4.2.jpg', 'images/.jpg'],
+    'An elegant demo product designed for style and functionality.',
+    249,
+    [
+        { name: 'Sophia White', rating: 5, comment: 'Incredible craftsmanship! Love the detailing.' },
+        { name: 'Oliver Black', rating: 4, comment: 'Beautiful but slightly pricey.' }
+    ]
+)">
+    <div class="badge">Best Seller</div>
+    <img src="images/4.jpg" alt="Demo Product 4">
+    <h3>Demo Product 4</h3>
+    <p>₹249</p>
+    <button onclick="event.stopPropagation(); addToCart('Demo Product 4', 249)">Add to Cart</button>
+    <button class="buy-now" onclick="event.stopPropagation(); buyNow('Demo Product 4', 249)">Buy Now</button>
+</div>
+
+<!-- Product 5 -->
+<div class="product-card" onclick="openProductPage(
+    'Demo Product 5',
+    ['images/5.jpg', 'images/5.1.jpg', 'images/5.2.jpg'],
+    'A stylish and affordable demo product for your home.',
+    99,
+    [
+        { name: 'Sophia White', rating: 5, comment: 'Incredible craftsmanship! Love the detailing.' },
+        { name: 'Oliver Black', rating: 4, comment: 'Beautiful but slightly pricey.' }
+    ]
+)">
+  <div class="badge">Best Seller</div>
+  <img src="images/5.jpg" alt="Demo Product 5">
+  <h3>Demo Product 5</h3>
+  <p>₹99</p>
+  <button onclick="event.stopPropagation(); addToCart('Demo Product 5', 99)">Add to Cart</button>
+  <button class="buy-now" onclick="event.stopPropagation(); buyNow('Demo Product 5', 99)">Buy Now</button>
+</div>
+
+<!-- Product 6 -->
+<div class="product-card" onclick="openProductPage(
+    'Demo Product 6',
+    ['images/6.jpg', 'images/6.1.jpg', 'images/6.2.jpg'],
+    'A well-crafted demo product to complement any space.',
+    249,
+    [
+        { name: 'Sophia White', rating: 5, comment: 'Incredible craftsmanship! Love the detailing.' },
+        { name: 'Oliver Black', rating: 4, comment: 'Beautiful but slightly pricey.' }
+    ]
+)">
+  <div class="badge">Best Seller</div>
+  <img src="images/6.jpg" alt="Demo Product 6">
+  <h3>Demo Product 6</h3>
+  <p>₹249</p>
+  <button onclick="event.stopPropagation(); addToCart('Demo Product 6', 249)">Add to Cart</button>
+  <button class="buy-now" onclick="event.stopPropagation(); buyNow('Demo Product 6', 249)">Buy Now</button>
+</div>
+
+    </div>
+   <br>
+   <br>
+    
+</section>
+
+<section id="product-detail" class="section product-detail">
+<li style="list-style-type: none; text-align: right;">
+    <a href="#" onclick="showSection('products')" style="color: blue; text-decoration: underline;">Continue Shopping</a>
+</li>
+<br>
+
+
+    <div class="product-gallery">
+      
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="product1-image1.jpg" alt="Macrame Wall Hanging Image 1">
+                </div>
+                <div class="swiper-slide">
+                    <img src="product1-image2.jpg" alt="Macrame Wall Hanging Image 2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="product1-image3.jpg" alt="Macrame Wall Hanging Image 3">
+                </div>
+            </div>
+            <!-- Add navigation buttons -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+
+    <div class="product-info">
+        <h2 class="product-name">Macrame Wall Hanging 1</h2>
+        <p class="product-description">
+            Beautiful handmade macrame wall hanging made with premium cotton threads. Perfect for adding warmth and elegance to your home décor.
+        </p>
+        <p class="product-price">$49.99</p>
+        
+        <!-- Add to Cart and Buy Now buttons -->
+        <div class="product-actions">
+            <button class="add-to-cart" onclick="addToCart('Macrame Wall Hanging 1', 49.99)">Add to Cart</button>
+            <button class="buy-now" onclick="buyNow('Macrame Wall Hanging 1', 49.99)">Buy Now</button>
+        </div>
+    </div>
+
+    <!-- Reviews and Ratings Section -->
+    <div class="product-reviews">
+        <h3>Customer Reviews</h3>
+        <div class="review">
+            <p><strong>John Doe</strong> <span class="rating">⭐⭐⭐⭐⭐</span></p>
+            <p>Absolutely stunning! The quality is amazing, and it looks perfect on my living room wall.</p>
+        </div>
+        <div class="review">
+            <p><strong>Jane Smith</strong> <span class="rating">⭐⭐⭐⭐</span></p>
+            <p>Beautiful piece, but the delivery was delayed by a few days. Worth the wait though!</p>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Cart Section -->
+<section id="cart" class="section">
+    <h2>Your Cart</h2>
+    <li style="list-style-type: none; text-align: right;">
+  <a href="#" onclick="showSection('products')" style="color: blue; text-decoration: underline;">Continue Shopping</a>
+</li>
+    <br>
+    
+    <!-- Cart Items -->
+    <div id="cart-items"></div>
+    
+    
+
+<h3>Shipping Address</h3>
+<div id="shipping-address">
+    <div class="address-row">
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Enter your name" required />
+    </div>
+    <div class="address-row">
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+        <small>Example: example@email.com</small>
+    </div>
+    <div class="address-row">
+        <label for="address1">Address Line 1:</label>
+        <input type="text" id="address1" placeholder="Street Address" required />
+    </div>
+    <div class="address-row">
+        <label for="address2">Address Line 2 (Optional):</label>
+        <input type="text" id="address2" placeholder="Apt, Suite, etc." />
+    </div>
+    <div class="address-row">
+        <label for="pincode">Pincode:</label>
+        <input type="number" id="pincode" placeholder="Enter pincode" required min="100000" max="999999" />
+        <small>6 digits (e.g., 123456)</small>
+    </div>
+    <div class="address-row">
+        <label for="city">City:</label>
+        <input type="text" id="city" placeholder="Enter city" required />
+    </div>
+    <div class="address-row">
+        <label for="state">State:</label>
+        <input type="text" id="state" placeholder="Enter state" required />
+    </div>
+</div>
+
+<br>
+
+
+     <!-- Checkbox to save data for future use -->
+            <div class="checkbox-container">
+                <input type="checkbox" id="saveDataCheckbox" />
+                <label for="saveDataCheckbox">Save for future use</label>
+            </div>
+        </form>
+    </div>
+
+    
+    <!-- Bill Breakdown -->
+    <div id="bill-breakdown">
+        <div class="bill-row">
+            <p id="cart-total">Total: ₹0.00</p>
+        </div>
+        <div class="bill-row">
+            <p id="taxes">Taxes: ₹0.00</p>
+        </div>
+        <div class="bill-row">
+            <p id="shipping">Shipping: ₹5.00</p>
+        </div>
+        
+        <!-- Discount Code Section -->
+        <div>
+            <label for="discount-code">Discount Code:</label>
+            <input type="text" id="discount-code" placeholder="Enter code" />
+            <button onclick="applyDiscount()">Apply</button>
+        </div>
+        
+        
+        <div class="bill-row">
+            <p id="final-total">Final Total: ₹0.00</p>
+        </div>
+        
+    
+    
+    
+       
+        <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+    </div>
+</section>
+
+
+<!-- Checkout Section -->
+<!-- Checkout Section -->
+<section id="checkout" class="section">
+    <h2>Checkout</h2>
+    <br>
+    
+    <div class="checkout">
+        <!-- Contact Information -->
+        <div class="checkout-field">
+            <label for="checkout-contact">"Contact Number (Including Country Code)</label>
+            <input type="tel" id="checkout-contact" placeholder="Phone Number"  required />
+<p class="disclaimer">
+    You may receive text messages related to order confirmation and shipping updates. Reply STOP to unsubscribe. Reply HELP for help. Message frequency varies. Msg & data rates may apply. View our Privacy Policy and Terms of service.
+</p>
+
+        </div>
+
+        <!-- Shipping Address -->
+        <div class="checkout-field">
+            
+        </div>
+                  <h2>Delivery </h2>
+        <div id="shipping-address-form" class="address-form">
+
+            <div class="address-row">
+                <label for="checkout-name">Full Name</label>
+                <input type="text" id="checkout-name" placeholder="Full Name" required />
+            </div>
+            <div class="address-row">
+                <label for="checkout-email">Email Address</label>
+                <input type="email" id="checkout-email" placeholder="Email Address" required />
+            </div>
+            <div class="address-row">
+                <label for="checkout-address">Shipping Address</label>
+                <input type="text" id="checkout-address" placeholder="Street Address" required />
+            </div>
+            <div class="address-row">
+                <label for="checkout-address2">Address Line 2 (Optional)</label>
+                <input type="text" id="checkout-address2" placeholder="Apartment, Suite, etc." />
+            </div>
+            <div class="address-row">
+                <label for="checkout-pincode">Pincode</label>
+                <input type="text" id="checkout-pincode" placeholder="Pincode" required />
+            </div>
+            <div class="address-row">
+                <label for="checkout-city">City</label>
+                <input type="text" id="checkout-city" placeholder="City" required />
+            </div>
+            <div class="address-row">
+                <label for="checkout-state">State</label>
+                <input type="text" id="checkout-state" placeholder="State" required />
+            </div>
+        </div>
+
+<br>
+
+        <!-- Billing Address Section -->
+        <div class="checkout-field">
+            <label for="same-as-shipping">Billing Address</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="same-as-shipping" onclick="toggleBillingAddress()" checked> Same as Shipping Address</label>
+            </div>
+        </div>
+
+        <!-- Billing Address Form (if different) -->
+        <div id="billing-address-form" class="address-form" style="display:none;">
+            <h3>Enter Billing Address</h3>
+            <div class="address-row">
+                <label for="billing-name">Full Name</label>
+                <input type="text" id="billing-name" placeholder="Full Name" />
+            </div>
+            <div class="address-row">
+                <label for="billing-email">Email Address</label>
+                <input type="email" id="billing-email" placeholder="Email Address" />
+            </div>
+            <div class="address-row">
+                <label for="billing-address">Billing Address</label>
+                <input type="text" id="billing-address" placeholder="Street Address" />
+            </div>
+            <div class="address-row">
+                <label for="billing-address2">Address Line 2 (Optional)</label>
+                <input type="text" id="billing-address2" placeholder="Apartment, Suite, etc." />
+            </div>
+            <div class="address-row">
+                <label for="billing-pincode">Pincode</label>
+                <input type="text" id="billing-pincode" placeholder="Pincode" />
+            </div>
+            <div class="address-row">
+                <label for="billing-city">City</label>
+                <input type="text" id="billing-city" placeholder="City" />
+            </div>
+            <div class="address-row">
+                <label for="billing-state">State</label>
+                <input type="text" id="billing-state" placeholder="State" />
+            </div>
+        </div>
+
+<br>
+
+        <!-- Payment Mode Selection -->
+        <div class="checkout-field">
+            <label>Payment Method</label>
+            <select id="payment-method">
+              <option value="cod">Cash on Delivery</option>
+              <option value="upi">UPI</option>
+             <option value="credit-card">Credit/Debit Card</option>
+                <option value="net-banking">Net Banking</option>
+            </select>
+        </div>
+
+
+        <!-- Order Summary -->
+        <div id="order-summary">
+            <h3>Order Summary</h3>
+            <div id="summary-items">
+                <!-- List of items will appear here -->
+            </div>
+            <div id="order-total">
+                <p>Total: ₹0.00</p>
+                <p>Taxes: ₹0.00</p>
+                <p>Shipping: ₹5.00</p>
+                <p id="final-total">Final Total: ₹0.00</p>
+            </div>
+        </div>
+        
+        <br>
+        
+
+<button id="rzp-button1" style="display:none; background-color: #2196f3; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 18px;" onclick="validateOnlineOrder()">Pay with Razorpay</button>
+
+
+
+
+        <!-- Place Order Button -->
+        <button class="place-order-btn" onclick="validateOrder()">Place Order</button>
+    </div>
+</section>
+
+<section id="order-confirmation" class="section order-confirmation">
+  <div class="confirmation-box">
+    <h2>Thank You for Your Order!</h2>
+    <p>Your order has been successfully placed. You will receive a confirmation email shortly.</p>
+
+    <div class="order-details">
+      <h3>Order Summary</h3>
+      <p><strong>Order Number:</strong> <span id="order-number"></span></p>
+      <p><strong>Estimated Delivery:</strong> 3-5 Business Days</p>
+      <p><strong>Shipping To:</strong> <span id="shipping-details"></span></p>
+      <p><strong>Payment Method:</strong> <span id="payment-method-confirm"></span></p>
+    </div>
+
+    <div class="confirmation-buttons">
+      <a href="index.html" class="btn">Continue Shopping</a>
+      <a href="track-order.html" class="btn btn-track">Track Order</a>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="contact-container">
+    <!-- Contact Information -->
+    <div class="contact-details">
+      <h2>Contact Us</h2>
+      <p><strong>Address:</strong>  Dehradun, Uttarakhand 248195</p>
+      <p><strong>Email:</strong> 
+themacramelofts@gmail.com</p>
+      <p><strong>Phone:</strong>+918393877531
+      <br>
+       </p>
+       <br>
+    </div>
+    
+    
+    
+
+
+    <!-- Google Map Box -->
+    <div class="map-box">
+      <iframe
+        src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+        width="100%"
+        height="300"
+        style="border:0;"
+        allowfullscreen=""
+        loading="fast"
+      ></iframe>
+    </div>
+  </div>
+    
+   
+      
+      
+      <br>
+"Reach Out directly for Any Issues, Feedbacks or Suggestions"
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <br>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <br>
+            
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+        <div class="social-media">
+            <h3>Find us on:</h3>
+           <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+           
+            <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+            
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+    </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 The Demo Store. All rights reserved.</p>
+        <p>
+            Follow us on 
+            <a href="#" target="_blank">Instagram</a>, 
+            <a href="#" target="_blank">Facebook</a>, and 
+            <a href="#" target="_blank">Pinterest</a>.
+        </p>
+         <p><a href="orders.html">Admin Login</a></p>  <!-- Admin link -->
+    </footer>
+
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>

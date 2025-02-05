@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders List</title>
+    <style>
+        h1 {
+            text-align: center;
+            color: #fff;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2px;
+            background-color: black;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .order-container {
+            max-width: 100%; /* Ensure the container is responsive */
+            margin: 0 auto;
+            padding: 0 10px; /* Add some padding to prevent edge-cutting on small screens */
+        }
+
+        table {
+            width: 100%; /* Ensure the table is fully responsive */
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: black;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            table-layout: fixed; /* Fix table layout */
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            color:#fff;
+            word-wrap: break-word; /* Ensure long content wraps properly */
+            overflow: hidden; /* Hide any overflow content */
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats div {
+            font-size: 18px;
+            color: #333;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .close-btn {
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close-btn:hover {
+            color: #ff0000;
+        }
+
+        .order-status-dropdown {
+            width: 55px;
+            padding: 0px;
+            font-size: 1px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="order-container">
+    <h1>Orders List</h1>
+
+    <!-- Order Stats Section -->
+<div class="stats">
+    <div><strong>Total Orders:</strong> <span id="total-orders">0</span></div>
+    <div><strong>Pending Orders:</strong> <span id="pending-orders">0</span></div>
+    <div><strong>Completed Orders:</strong> <span id="completed-orders">0</span></div>
+</div>
+
+
+
+
+<!-- Add this with your other stats -->
+<div class="stats">
+    <div><strong>Total Earnings:</strong> <span id="total-earnings">0</span></div>
+    <div><strong>Pending Payments:</strong> <span id="pending-payments">0</span></div>
+</div>
+
+
+
+
+<input type="text" id="search-bar" placeholder="Search by Order ID or Customer Name" 
+    style="width: 95%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                  <th>Customer Name</th>
+                <th>Order Date</th>
+                <th>Order Status</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody id="orders-table">
+            <!-- Orders will be displayed here -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal for Order Details -->
+<div id="order-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Order Details</h2>
+            <button class="close-btn" id="close-modal">&times;</button>
+        </div>
+        <div id="order-details">
+            <!-- Detailed order information will be displayed here -->
+        </div>
+        <!-- Add this in the order details HTML -->
+
+    </div>
+</div>
+
+<!-- Firebase and Custom Scripts -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+    import { getFirestore, collection, getDocs, doc, updateDoc,deleteDoc
+    ,setDoc , getDoc } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+  apiKey: "AIzaSyCiQsm5ARzxpkVmxWyKQlYAkso8zIdYxO8",
+  authDomain: "the-demo-store.firebaseapp.com",
+  projectId: "the-demo-store",
+  storageBucket: "the-demo-store.firebasestorage.app",
+  messagingSenderId: "41447504329",
+  appId: "1:41447504329:web:0af0c1ece41c0aa8971018",
+  measurementId: "G-HCMES5GED4"
+};
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+
+    // Function to load orders from Firestore and display them in the table
+async function loadOrders() {
+    try {
+        const ordersTable = document.getElementById("orders-table");
+        const totalOrdersCount = document.getElementById("total-orders");
+        const pendingOrdersCount = document.getElementById("pending-orders");
+        const completedOrdersCount = document.getElementById("completed-orders");
+        const pendingPaymentsElement = document.getElementById("pending-payments"); // Moved up
+
+        const ordersCollection = collection(db, "orders");
+        const snapshot = await getDocs(ordersCollection);
+
+        if (snapshot.empty) {
+            console.log("No orders found!");
+            ordersTable.innerHTML = "<tr><td colspan='5'>No orders available.</td></tr>";
+                 // Add debug logs
+            
+            // Reset all values to zero
+            totalOrdersCount.textContent = 0;
+            pendingOrdersCount.textContent = 0;
+            completedOrdersCount.textContent = 0;
+            pendingPaymentsElement.textContent = 0;
+            return;
+        }
+
+        ordersTable.innerHTML = ""; // Clear previous data
+        let totalOrders = 0;
+        let pendingOrders = 0;
+        let completedOrders = 0;
+        let pendingPayments = 0;
+        // In the variable declarations at the top of loadOrders
+
+
+        snapshot.forEach((doc) => {
+            const order = doc.data();
+            console.log("Processing order:", doc.id);
+            console.log("Order status:", order.orderStatus);
+            console.log("Final Total:", order.finalTotal);
+            console.log("Parsed Final Total:", parseFloat(order.finalTotal));
+            const orderId = doc.id;
+            const customerName = order.shippingAddress?.name || "N/A";
+            const orderDate = order.orderDate || "N/A";
+            const orderStatus = order.orderStatus || "Unfulfilled";
+            const finalTotal = parseFloat(order.finalTotal) || 0;
+
+            totalOrders++;
+
+            if (orderStatus === "Delivered" || orderStatus === "Returned") {
+                completedOrders++;
+            } else {
+                pendingOrders++;
+                pendingPayments += finalTotal;
+                console.log("Adding to pending payments:", finalTotal);
+                console.log("Current pending total:", pendingPayments);
+            }
+
+            const row = `
+    <tr data-order-id="${orderId}" data-customer-name="${customerName.toLowerCase()}">
+        <td>${orderId}</td>
+        <td>${customerName}</td>
+        <td>${new Date(orderDate).toLocaleString()}</td>
+        <td>
+            <select class="order-status-dropdown" data-order-id="${orderId}">
+                <option value="Unfulfilled[COD]" ${orderStatus === "Unfulfilled[COD]" ? "selected" : ""}>Unfulfilled[COD]</option>
+                  <option value="paid" ${orderStatus === "paid" ? "selected" : ""}>Unfulfilled[Paid]</option>
+                <option value="In creation" ${orderStatus === "In creation" ? "selected" : ""}>In creation</option>
+                <option value="Shipped" ${orderStatus === "Shipped" ? "selected" : ""}>Shipped</option>
+                <option value="In transit" ${orderStatus === "In transit" ? "selected" : ""}>In transit</option>
+                <option value="Delivered" ${orderStatus === "Delivered" ? "selected" : ""}>Delivered</option>
+                <option value="Returned" ${orderStatus === "Returned" ? "selected" : ""}>Returned</option>
+              
+            </select>
+        </td>
+        <td><span class="toggle-details">View Details</span></td>
+    </tr>
+`;
+            ordersTable.innerHTML += row;
+        });
+
+        // Update all stats
+        totalOrdersCount.textContent = totalOrders;
+        pendingOrdersCount.textContent = pendingOrders;
+        completedOrdersCount.textContent = completedOrders;
+        pendingPaymentsElement.textContent = pendingPayments.toFixed(2);
+
+        // Event listeners
+        document.querySelectorAll(".toggle-details").forEach(element => {
+            element.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const row = e.target.closest("tr");
+                const orderId = row.getAttribute("data-order-id");
+                const modal = document.getElementById("order-modal");
+
+                if (modal.style.display === "none" || modal.getAttribute('data-order-id') !== orderId) {
+                    showOrderDetails(orderId);
+                    modal.style.display = "flex";
+                }
+            });
+        });
+
+        document.querySelectorAll(".order-status-dropdown").forEach(dropdown => {
+            dropdown.addEventListener("change", async (e) => {
+                const orderId = e.target.getAttribute("data-order-id");
+                const newStatus = e.target.value;
+
+                const password = prompt("Please enter the password to change order status:");
+                if (password === "ansh") {
+                    await updateOrderStatus(orderId, newStatus);
+                } else {
+                    alert("Incorrect password.");
+                    e.target.value = e.target.defaultValue;
+                }
+            });
+        });
+
+        document.getElementById("search-bar").addEventListener("input", searchOrders);
+
+    } catch (error) {
+        console.error("Error loading orders:", error);
+        alert("Failed to load orders. Check console for details.");
+    }
+}
+
+
+    
+  
+async function searchOrders() {
+    const searchQuery = document.getElementById("search-bar").value.toLowerCase().trim();
+    const rows = document.querySelectorAll("#orders-table tr");
+
+    rows.forEach(row => {
+        const orderId = row.getAttribute("data-order-id")?.trim().toLowerCase() || "";
+        const customerName = row.getAttribute("data-customer-name")?.trim().toLowerCase() || "";
+
+        // Check if searchQuery matches exactly with Order ID OR is included in Customer Name
+        if (orderId === searchQuery || customerName.includes(searchQuery)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
+    
+
+    // Function to update the order status in Firebase
+async function updateOrderStatus(orderId, newStatus) {
+    try {
+        const orderRef = doc(db, "orders", orderId);
+        const orderSnap = await getDoc(orderRef);
+        const orderData = orderSnap.data();
+        const previousStatus = orderData.orderStatus;
+        const finalTotal = parseFloat(orderData.finalTotal) || 0;
+
+        // Calculate the net change in earnings
+        let earningsChange = 0;
+
+        // Remove impact of previous status
+        if (previousStatus === "Delivered") {
+            earningsChange -= finalTotal;
+        } 
+
+        // Add impact of new status
+        if (newStatus === "Delivered") {
+            earningsChange += finalTotal;
+        } else if (newStatus === "Returned") {
+            
+        }
+        
+        
+
+        // Apply the net change
+        if (earningsChange !== 0) {
+            await updateTotalEarnings(earningsChange);
+        }
+
+        // Update the status
+        await updateDoc(orderRef, { orderStatus: newStatus });
+
+        alert("Order status updated successfully!");
+        loadOrders();
+        loadTotalEarnings();
+    } catch (error) {
+        console.error("Error updating order status:", error);
+        alert("Failed to update order status.");
+    }
+}
+    
+    
+    async function deleteOrder(orderId) {
+    try {
+        const password = prompt("Please enter the password to cancel the order:");
+        if (password === "ansh") {
+            const orderRef = doc(db, "orders", orderId);
+            await deleteDoc(orderRef);
+            alert("Order canceled successfully.");
+            loadOrders(); // Reload the orders list to reflect the deletion
+            document.getElementById("order-modal").style.display = "none"; // Close the modal
+            
+        } else {
+            alert("Incorrect password.");
+        }
+    } catch (error) {
+        console.error("Error deleting order:", error);
+        alert("Failed to cancel order.");
+    }
+}
+    
+
+    
+
+    // Function to display detailed information of a selected order
+    async function showOrderDetails(orderId) {
+        try {
+            const ordersCollection = collection(db, "orders");
+            const snapshot = await getDocs(ordersCollection);
+            const orderDoc = snapshot.docs.find(doc => doc.id === orderId);
+            const order = orderDoc ? orderDoc.data() : {};
+
+            const orderDetails = document.getElementById("order-details");
+            orderDetails.setAttribute('data-order-id', orderId); // Set orderId as a custom attribute to target later
+
+            // Extract name and email from the shippingAddress field
+            const name = order.shippingAddress?.name || "N/A";
+            const email = order.shippingAddress?.email || "N/A";
+
+            orderDetails.innerHTML = `
+    <div><strong>Name:</strong> ${name}</div>
+    <div><strong>Email:</strong> ${email}</div>
+    <div><strong>Payment Id:</strong> ${order.paymentId || "N/A"}</div>
+    <div><strong>Contact Number:</strong> ${order.contactNumber || "N/A"}</div>
+    <div><strong>Shipping Address:</strong> ${order.shippingAddress ? `${order.shippingAddress.address}, ${order.shippingAddress.city}, ${order.shippingAddress.state} - ${order.shippingAddress.pincode}` : "N/A"}</div>
+    <div><strong>Payment Method:</strong> ${order.paymentMethod || "N/A"}</div>
+    <div><strong>Order Date:</strong> ${new Date(order.orderDate).toLocaleString()}</div>
+    <div><strong>Cart Items:</strong> ${order.cartItems ? order.cartItems.items.map(item => `${item.productName} (x${item.quantity})`).join("<br>") : "No items"}</div>
+    <div><strong>Order Status:</strong> ${order.orderStatus || "Unfulfilled"}</div>
+    <div><strong>Final Total:</strong> ${order.finalTotal || "N/A"}</div>
+    
+    <button id="cancel-order-btn" style="margin-top: 20px; padding: 10px; background-color: #ff4d4d; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel Order</button>
+    <button id="whatsapp-btn" style="padding: 10px; background-color: #25D366; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Send WhatsApp Update
+        </button>
+         <button id="shipping-update-btn" style="padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            📦
+        </button>
+`;
+
+document.getElementById("cancel-order-btn").addEventListener("click", () => {
+  const orderId = orderDetails.getAttribute('data-order-id');
+  deleteOrder(orderId);
+});
+
+
+// Add WhatsApp message functionality
+document.getElementById("whatsapp-btn").addEventListener("click", () => {
+    const contactNumber = order.contactNumber;
+    if (!contactNumber) {
+        alert("No contact number available!");
+        return;
+    }
+
+    // Format products list without prices
+    const products = order.cartItems?.items.map(item => 
+        `${item.productName} (Qty: ${item.quantity})`  // Removed price calculation
+    ).join("\n") || "No items";
+
+    // Create message template
+    const message = `Thank you for shopping with us! 🛍️\n
+    
+*Order ID:* ${orderId}\n
+*Products:*\n${products}\n
+*Total Amount:* ₹${order.finalTotal}\n
+If you have any questions, reach out to us at themacramelofts@gmail.com or contact us directly on +918393877531
+
+We'll keep you updated on your order status. Stay tuned! 📦`;
+
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Remove any non-digit characters from phone number
+    const cleanNumber = contactNumber.replace(/\D/g,'');
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${cleanNumber}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
+});
+
+// Add Shipping Update functionality
+document.getElementById("shipping-update-btn").addEventListener("click", () => {
+    const contactNumber = order.contactNumber;
+    if (!contactNumber) return; // If no contact number, exit the function
+
+    // Create an empty message template for shipping details
+    let message = `Your order ${orderId} has been shipped! 🚚\n\n`;
+    message += `*Tracking Number:* [Enter tracking number]\n`;
+    message += `*Tracking Link:* [Enter tracking URL (optional)]\n`;
+    message += `*Estimated Delivery:* [Enter estimated delivery days (e.g., 3-5 days)]\n\n`;
+    message += "Thank you for your patience!";
+
+    // Clean and validate phone number
+    const cleanNumber = contactNumber.replace(/\D/g, ''); // Remove all non-digits
+    if (!cleanNumber) return; // If the number is invalid, exit the function
+
+    // Create WhatsApp URL with the message
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${cleanNumber}?text=${encodedMessage}`;
+    
+    // Create temporary link to bypass pop-up blockers
+    const link = document.createElement('a');
+    link.href = whatsappUrl;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+});
+     
+        } catch (error) {
+            console.error("Error fetching order details:", error);
+            alert("Failed to load order details.");
+        }
+    }
+
+    // Close modal when clicking the close button
+    document.getElementById("close-modal").addEventListener("click", () => {
+        document.getElementById("order-modal").style.display = "none";
+    });
+    
+  async function updateTotalEarnings(amount) {
+    try {
+        const earningsRef = doc(db, "earnings", "totalEarnings");
+        const earningsDoc = await getDoc(earningsRef);
+
+        if (earningsDoc.exists()) {
+            // Update existing earnings
+            const currentEarnings = earningsDoc.data().total || 0;
+            await updateDoc(earningsRef, {
+                total: currentEarnings + amount
+            });
+        } else {
+            // Create new earnings document
+            await setDoc(earningsRef, {
+                total: amount
+            });
+        }
+    } catch (error) {
+        console.error("Error updating total earnings:", error);
+        alert("Failed to update total earnings.");
+    }
+}
+
+async function loadTotalEarnings() {
+    try {
+        const earningsRef = doc(db, "earnings", "totalEarnings");
+        const earningsDoc = await getDoc(earningsRef);
+
+        if (earningsDoc.exists()) {
+            const totalEarnings = earningsDoc.data().total || 0;
+            document.getElementById("total-earnings").textContent = totalEarnings.toFixed(2);
+        } else {
+            document.getElementById("total-earnings").textContent = "0.00";
+        }
+    } catch (error) {
+        console.error("Error loading total earnings:", error);
+        alert("Failed to load total earnings.");
+    }
+}
+window.onload = async () => {
+    await loadOrders();
+    await loadTotalEarnings();
+};
+    
+
+    
+</script>
+
+<script>
+    const correctPassword = "ansh"; // Set your password
+    const PASSWORD_KEY = "authenticated"; // LocalStorage key
+
+    function checkPassword() {
+        // Check if the user is already authenticated
+        if (localStorage.getItem(PASSWORD_KEY) === "true") {
+            return; // Skip asking for the password again
+        }
+
+        // Ask for the password
+        const userPassword = prompt("Enter the password to access this page:");
+
+        if (userPassword === correctPassword) {
+            localStorage.setItem(PASSWORD_KEY, "true"); // Remember authentication
+        } else {
+            alert("Incorrect password. Access denied.");
+            window.location.href = "macrame.html"; // Redirect to another page
+        }
+    }
+
+    // Call the function when the page loads
+    checkPassword();
+</script>
+
+</body>
+</html>

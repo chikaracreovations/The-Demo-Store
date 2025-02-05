@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            font-weight: 600;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .order-info {
+            background-color: #f4f7f6;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-info p {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .order-info .order-detail {
+            font-weight: 600;
+        }
+
+        .order-info .payment-detail {
+            color: #888;
+        }
+
+        .cta-buttons {
+            margin-top: 30px;
+        }
+
+        .cta-buttons a {
+            padding: 15px 30px;
+            margin: 15px 0;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            display: inline-block;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-buttons .view-order {
+            background-color: #007bff;
+        }
+
+        .cta-buttons .whatsapp {
+            background-color: #25D366;
+        }
+
+        .cta-buttons .email {
+            background-color: #ff6347;
+        }
+
+        .cta-buttons a:hover {
+            opacity: 0.9;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Thank You for Your Order!</h1>
+        
+        <div class="order-info">
+            <p><strong>Your Order ID:</strong> <span id="order-id"></span></p>
+            <p id="payment-id-container" style="display: none;"><strong>Payment ID:</strong> <span id="payment-id"></span></p>
+            <p>Your order has been successfully placed. Further details will be sent to you via email and WhatsApp.</p>
+        </div>
+
+        <!-- Call to Action buttons -->
+        <div class="cta-buttons">
+            <a href="macrame.html" class="view-order">Continue Shopping</a>
+            <a href="https://wa.me/?text=Hi!%20I%20need%20help%20with%20order%20ID%20<span id='order-id'></span>" class="whatsapp" target="_blank">Chat with Us on WhatsApp</a>
+
+        </div>
+        
+        <!-- Footer with additional links -->
+        <footer>
+            <p>If you have any questions, please feel free to <a href="mailto:themacramelofts@gmail.com">email our support team</a>.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Get the orderId and paymentId from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        const paymentId = urlParams.get('paymentId');
+
+        // Display the order ID
+        document.getElementById("order-id").textContent = orderId;
+
+        // If paymentId exists, show it as well
+        if (paymentId) {
+            document.getElementById("payment-id-container").style.display = "block";  // Show payment ID
+            document.getElementById("payment-id").textContent = paymentId;
+        }
+    </script>
+</body>
+</html>
