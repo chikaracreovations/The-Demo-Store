@@ -27,11 +27,10 @@
 
 ---
 
-
 ## 🌐 Live Demo
-
 Check out the live version of this here:
 [The Demo Store](https://chikaracreovations.github.io/The-Demo-Store/public/index.html)
+
 ---
 
 ## 🤝 Contributing
