@@ -89,18 +89,39 @@
     const formattedTotal = document.getElementById('final-total').innerText.trim();
     const numericTotal = parseFloat(
         formattedTotal
-            .replace(/[^0-9.]/g, '') // Remove currency symbols
-            .replace(/,/g, '')       // Remove thousand separators
+            .replace(/[^0-9.]/g, '')
+            .replace(/,/g, '')
     ) || 0;
 
     try {
-        // ✅ Razorpay Payment Integration
+        // 1. First call your backend to create a Razorpay order
+        const response = await fetch('http://localhost:3000/create-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                amount: numericTotal,
+                currency: 'INR',
+                receipt: 'order_' + Math.random().toString(36).substring(7),
+                notes: {
+                    customer_name: shippingAddress.name,
+                    customer_email: shippingAddress.email,
+                    customer_contact: contactNumber
+                }
+            })
+        });
+
+        const orderData = await response.json();
+
+        // 2. Initialize Razorpay checkout with the order ID from your backend
         var options = {
-            "key": "", // Replace with your Razorpay Key
-            "amount": numericTotal * 100, // Convert ₹ to paise
-            "currency": "INR",
-            "name": "The Macrame Lofts",
+            "key": "process.env.RAZORPAY_KEY_ID", // This can be public
+            "amount": orderData.amount, // Use amount from backend
+            "currency": orderData.currency,
+            "name": "The Demo Store",
             "description": "Order Payment",
+            "order_id": orderData.id, // Use order ID from backend
             "prefill": {
                 "name": shippingAddress.name,
                 "email": shippingAddress.email,
@@ -108,36 +129,43 @@
             },
             "theme": { "color": "#3399cc" },
             "handler": async function (response) {
-                alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                // 3. Verify payment with your backend
+                const verificationResponse = await fetch('http://localhost:3000/verify-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        order_id: response.razorpay_order_id,
+                        payment_id: response.razorpay_payment_id,
+                        signature: response.razorpay_signature
+                    })
+                });
 
-                // ✅ Now Create the Order in Firestore after Payment is successful
-                const db = getFirestore(); // Ensure you have Firestore instance
-                try {
-                    // Create Order in Firestore (using modular syntax)
+                const verificationResult = await verificationResponse.json();
+
+                if (verificationResult.success) {
+                    // Payment verified - create order in Firestore
+                    const db = getFirestore();
                     const orderRef = await addDoc(collection(db, "orders"), {
                         contactNumber,
                         shippingAddress,
                         paymentMethod: "Online",
-                        cartItems: getCartData(),  // Assuming you have a function that returns cart data
+                        cartItems: getCartData(),
                         orderDate: new Date().toISOString(),
                         finalTotal: numericTotal,
-                        orderStatus: "Paid", // Set the order status to Paid
-                        paymentId: response.razorpay_payment_id, // Save the Razorpay Payment ID
+                        orderStatus: "Paid",
+                        paymentId: response.razorpay_payment_id,
                     });
 
-                    console.log("Order Created with ID:", orderRef.id);
-                    
-                window.location.replace(`confirmation.html?orderId=${orderRef.id}&paymentId=${response.razorpay_payment_id}`);
-                
-                
-                } catch (error) {
-                    console.error("Error creating order in Firestore:", error);
-                    alert("An error occurred while creating your order. Please try again.");
+                    window.location.replace(`confirmation.html?orderId=${orderRef.id}&paymentId=${response.razorpay_payment_id}`);
+                } else {
+                    alert("Payment verification failed. Please contact support.");
                 }
             },
             "modal": {
                 "ondismiss": function () {
-                    alert("Payment Cancelled  Order Not Placed. Please try again");
+                    alert("Payment Cancelled - Order Not Placed. Please try again");
                 }
             }
         };

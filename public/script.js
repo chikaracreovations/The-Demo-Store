@@ -7,7 +7,7 @@ let cart = [];
 // Store some default product data (you can modify this)
 
 const productData = {
-    'Demo Product 1': { price: 199, image: 'images/1.jpg' },
+    'Demo Product 1': { price: 5, image: 'images/1.jpg' },
     'Demo Product 2': { price: 299, image: 'images/2.jpg' },
     'Demo Product 3': { price: 399, image: 'images/3.jpg' },
     'Demo Product 4': { price: 249, image: 'images/4.jpg' },
@@ -63,7 +63,7 @@ function updateCart() {
 
     let total = 0;
     let tax = 0;
-    let shipping = 35.00;
+    let shipping = 1.00;
     let totalQuantity = 0; // Variable to store total quantity of all items
 
     if (cart.length === 0) {
@@ -148,7 +148,7 @@ function applyDiscount() {
     
     let total = 0;
     let tax = 0;
-    let shipping = 35.00;
+    let shipping = 1.00;
 
     cart.forEach(item => {
         total += item.price * item.quantity;
