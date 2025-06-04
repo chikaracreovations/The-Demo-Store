@@ -116,7 +116,7 @@
 
         // 2. Initialize Razorpay checkout with the order ID from your backend
         var options = {
-            "key": "process.env.RAZORPAY_KEY_ID", // This can be public
+            "key": "rzp_live_u9duLqVwHQkfin", // This can be public
             "amount": orderData.amount, // Use amount from backend
             "currency": orderData.currency,
             "name": "The Demo Store",
