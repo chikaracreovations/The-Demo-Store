@@ -1,3 +1,4 @@
+
 # 🛒 The Demo Store
 
 **The Demo Store** is a modern e-commerce web application built for demonstration purposes. It showcases the full flow of an online shopping experience — from browsing products to checkout — with real-time database integration and secure payment processing.
@@ -71,11 +72,16 @@ Password: password123
 
 ---
 
+🌐 Live Demo
 
- 🤝 Contributing
+Check out the live version of this here:
+🔗 The Demo Store
+
+---
+
+🤝 Contributing
 
 Contributions are welcome!
-
 1. Fork the repository
 2. Create your feature branch: git checkout -b feature/feature-name
 3. Commit your changes: git commit -m "Add feature"
@@ -90,16 +96,12 @@ This project is licensed under the MIT License.
 
 ---
 
-🌐 Live Demo
-
-Check out the live version of this here: 
-[The Demo Store](https://chikaracreovations.github.io/The-Demo-Store/public/index.html)
----
-
 > Built️ by @chikaracreovations
 
+---
 
-### ✅ Notes:
-- Replace `https://your-live-link.com` with your actual live site.
-- Be sure to keep your `.env` file private and never commit it.
+✅ Notes:
 
+Be sure to keep your .env file private and never commit it.
+
+---
