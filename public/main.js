@@ -95,7 +95,7 @@
 
     try {
         // 1. First call your backend to create a Razorpay order
-        const response = await fetch('http://localhost:3000/create-order', {
+        const response = await fetch('https://the-demo-store-razorpay-backend.onrender.com/create-order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -130,7 +130,7 @@
             "theme": { "color": "#3399cc" },
             "handler": async function (response) {
                 // 3. Verify payment with your backend
-                const verificationResponse = await fetch('http://localhost:3000/verify-payment', {
+                const verificationResponse = await fetch('https://the-demo-store-razorpay-backend.onrender.com/verify-payment', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
