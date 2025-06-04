@@ -3,19 +3,18 @@ const Razorpay = require('razorpay');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-app.use(helmet());
-
 require('dotenv').config();
 
-
 const app = express();
+
+app.use(helmet());        // use helmet after app initialization
 app.use(cors());
 app.use(bodyParser.json());
 
-// Initialize Razorpay
+// Initialize Razorpay with env variables (no quotes!)
 const razorpay = new Razorpay({
-  key_id: 'process.env.RAZORPAY_KEY_ID',
-  key_secret: 'process.env.RAZORPAY_KEY_SECRET'
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET
 });
 
 // Create Order Endpoint
@@ -44,7 +43,7 @@ app.post('/verify-payment', async (req, res) => {
     const { order_id, payment_id, signature } = req.body;
     
     const crypto = require('crypto');
-    const hmac = crypto.createHmac('sha256', 'process.env.RAZORPAY_KEY_SECRET');
+    const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
     hmac.update(order_id + "|" + payment_id);
     const generatedSignature = hmac.digest('hex');
     
