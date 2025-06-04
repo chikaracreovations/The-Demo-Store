@@ -27,56 +27,11 @@
 
 ---
 
-## ⚙️ Getting Started
-
-Follow these steps to run the project locally:
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/chikaracreovations/The-Demo-Store.git
-cd The-Demo-Store
-
-2. Install Dependencies
-
-npm install
-
-3. Configure Environment Variables
-
-Create a .env file in the root directory and add your Firebase and Razorpay credentials:
-
-# Firebase Config
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-
-# Razorpay Key
-VITE_RAZORPAY_KEY_ID=your_razorpay_key_id
-
-4. Run the Development Server
-
-npm run dev
-
-Visit http://localhost:3000 to open the app in your browser.
-
-
----
-
-🧪 Demo Credentials (Optional)
-You can use these for testing (if applicable):
-Email: testuser@example.com
-Password: password123
-
----
 
 🌐 Live Demo
 
 Check out the live version of this here:
-🔗 The Demo Store
-
+[The Demo Store](https://chikaracreovations.github.io/The-Demo-Store/public/index.html)
 ---
 
 🤝 Contributing
