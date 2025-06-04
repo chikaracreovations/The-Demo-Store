@@ -92,8 +92,8 @@ This project is licensed under the MIT License.
 
 🌐 Live Demo
 
-👉 View The Demo Store Online
-
+Check out the live version of this here: 
+[The Demo Store](https://chikaracreovations.github.io/The-Demo-Store/public/index.html)
 ---
 
 > Built️ by @chikaracreovations
