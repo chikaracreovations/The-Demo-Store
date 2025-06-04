@@ -71,7 +71,6 @@ Password: password123
 
 ---
 
-'\'\'\''
 
  🤝 Contributing
 
