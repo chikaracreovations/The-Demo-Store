@@ -65,14 +65,9 @@ Visit http://localhost:3000 to open the app in your browser.
 ---
 
 🧪 Demo Credentials (Optional)
-
 You can use these for testing (if applicable):
-
 Email: testuser@example.com
-
 Password: password123
-
-
 
 ---
 
@@ -81,21 +76,10 @@ Password: password123
 Contributions are welcome!
 
 1. Fork the repository
-
-
 2. Create your feature branch: git checkout -b feature/feature-name
-
-
 3. Commit your changes: git commit -m "Add feature"
-
-
 4. Push to the branch: git push origin feature/feature-name
-
-
 5. Open a pull request
-
-
-
 
 ---
 
@@ -103,23 +87,18 @@ Contributions are welcome!
 
 This project is licensed under the MIT License.
 
-
 ---
 
 🌐 Live Demo
 
 👉 View The Demo Store Online
 
-
 ---
 
-> Built with ❤️ by @chikaracreovations
-
+> Built️ by @chikaracreovations
 
 
 ### ✅ Notes:
 - Replace `https://your-live-link.com` with your actual live site.
 - Be sure to keep your `.env` file private and never commit it.
-
-Let me know if you'd like to add deployment steps, Razorpay test instructions, or badges (build, license, etc.)!
 
